@@ -1,0 +1,27 @@
+dbt-fusion 2.0.0-beta.65
+   Loading ../.dbt/profiles.yml
+   Loading packages.yml
+   Loading dbt_project.yml
+   Loading dbt_packages/dbt_utils/dbt_project.yml
+   Loading dbt_internal_packages/dbt-adapters/dbt_project.yml
+   Loading dbt_internal_packages/dbt-bigquery/dbt_project.yml
+warning: (will error post beta) dbt1060: Ignored unexpected key `"freshness"`. YAML path: `freshness`.
+  --> dbt/models/schema.yml:8:9
+warning: (will error post beta) dbt1060: Ignored unexpected key `"loaded_at_field"`. YAML path: `loaded_at_field`.
+  --> dbt/models/schema.yml:10:51
+warning: (will error post beta) dbt1060: Ignored unexpected key `"loaded_at_field"`. YAML path: `loaded_at_field`.
+  --> dbt/models/schema.yml:18:9
+warning: (will error post beta) dbt1060: Ignored unexpected key `"freshness"`. YAML path: `freshness`.
+  --> dbt/models/schema.yml:19:9
+warning: (will error post beta) dbt1060: Ignored unexpected key `"loaded_at_field"`. YAML path: `loaded_at_field`.
+  --> dbt/models/schema.yml:13:9
+warning: (will error post beta) dbt1060: Ignored unexpected key `"freshness"`. YAML path: `freshness`.
+  --> dbt/models/schema.yml:14:9
+warning: (will error post beta) dbt0102: Deprecated test arguments: ["expression"] at top-level detected. Please migrate to the new format under the 'arguments' field: https://docs.getdbt.com/reference/deprecations#missingargumentspropertyingenerictestdeprecation.
+  --> dbt/models/schema.yml:37:23
+error: dbt0227: No column consent_measurement found. Available are "moonlit-byway-411823".analytics.fct_funnels_signup.event_name, "moonlit-byway-411823".analytics.fct_funnels_signup.customer_id, "moonlit-byway-411823".analytics.fct_funnels_signup.ts
+  --> target/generic_tests/expression_is_true_fct_funnels_714c8492959b25691c72341982f779e6.sql:9:11 (dbt/target/compiled/generic_tests/expression_is_true_fct_funnels_714c8492959b25691c72341982f779e6.sql:9:11)
+   Running target/generic_tests/not_null_stg_events_event_id.sql
+   Running target/generic_tests/not_null_stg_events_consent_measurement.sql
+   Running target/generic_tests/not_null_fct_sessions_session_id.sql
+   Running target/generic_tests/unique_stg_events_event_id.sql

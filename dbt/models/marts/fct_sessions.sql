@@ -1,33 +1,44 @@
-
 {{ config(
     materialized='table',
     partition_by={'field': 'ts', 'data_type': 'timestamp'},
     cluster_by=['event_name']
 ) }}
-with base as (
-  select * from {{ ref('stg_events') }}
-  where consent_measurement = true
-)
-, marked as (
-  select
+
+WITH base AS (
+  SELECT
+    customer_id,
+    SAFE_CAST(ts AS TIMESTAMP) AS ts,
+    event_name,
+    page
+  FROM {{ ref('stg_events') }}
+  WHERE consent_measurement = TRUE
+),
+ordered AS (
+  SELECT
     customer_id,
     ts,
     event_name,
     page,
-    case
-      when lag(ts) over (partition by customer_id order by ts) is null then 1
-      when timestamp_diff(ts, lag(ts) over (partition by customer_id order by ts), minute) > 30 then 1
-      else 0
-    end as new_session_flag
-  from base
-)
-, sessionized as (
-  select
+    LAG(ts) OVER (PARTITION BY customer_id ORDER BY ts) AS prev_ts
+  FROM base
+),
+session_breaks AS (
+  SELECT
     customer_id,
     ts,
     event_name,
     page,
-    sum(new_session_flag) over (partition by customer_id order by ts) as session_id
-  from marked
+    CASE
+      WHEN prev_ts IS NULL THEN 1
+      WHEN UNIX_SECONDS(ts) - UNIX_SECONDS(prev_ts) > 30 * 60 THEN 1
+      ELSE 0
+    END AS new_session_flag
+  FROM ordered
 )
-select * from sessionized
+SELECT
+  customer_id,
+  ts,
+  event_name,
+  page,
+  SUM(new_session_flag) OVER (PARTITION BY customer_id ORDER BY ts) AS session_id
+FROM session_breaks

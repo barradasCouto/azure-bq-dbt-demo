@@ -4,7 +4,7 @@ with src as (
   select
     event_id,
     cast(customer_id as int64) as customer_id,
-    timestamp(ts) as ts,
+    ts AS ts,
     event_name,
     page,
     region,
