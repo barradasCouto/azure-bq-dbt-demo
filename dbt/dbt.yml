@@ -1,0 +1,13 @@
+
+name: 'usercentrics_migration_demo'
+version: '1.0.0'
+config-version: 2
+profile: 'usercentrics_demo'
+
+models:
+  usercentrics_migration_demo:
+    +materialized: view
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

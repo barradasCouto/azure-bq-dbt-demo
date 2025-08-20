@@ -1,0 +1,13 @@
+
+version: 2
+exposures:
+  - name: marketing_funnel_dashboard
+    type: dashboard
+    maturity: high
+    url: https://example.com/dashboard
+    depends_on:
+      - ref('fct_funnels_signup')
+      - ref('fct_sessions')
+    owner:
+      name: DataOps
+      email: team@example.com

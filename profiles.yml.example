@@ -1,0 +1,11 @@
+usercentrics_demo:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      keyfile: /Users/gcouto/.keys/airbyte-bq.json
+      project: <PROJECT_ID>
+      dataset: analytics
+      location: EU
+      threads: 4
