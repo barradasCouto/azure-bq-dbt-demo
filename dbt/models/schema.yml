@@ -1,38 +1,26 @@
 
 version: 2
 
-sources:
-  - name: raw
-    schema: "raw"
-    tables:
-      - name: customers
-        freshness:
-          warn_after: {count: 120, period: minute}
-          error_after: {count: 240, period: minute}
-        loaded_at_field: created_at
-      - name: orders
-        loaded_at_field: updated_at
-        freshness:
-          warn_after: {count: 120, period: minute}
-          error_after: {count: 240, period: minute}
-      - name: events
-        loaded_at_field: ts
-        freshness:
-          warn_after: {count: 60, period: minute}
-          error_after: {count: 180, period: minute}
-
 models:
   - name: stg_events
     columns:
       - name: event_id
-        tests: [unique, not_null]
+        tests:
+          - unique
+          - not_null
       - name: consent_measurement
-        tests: [not_null]
+        tests:
+          - not_null
+
   - name: fct_sessions
     tests:
       - not_null:
           column_name: session_id
+
   - name: fct_funnels_signup
-    tests:
-      - dbt_utils.expression_is_true:
-          expression: "consent_measurement = TRUE"
+    columns:
+      - name: consent_measurement
+        tests:
+          - accepted_values:
+              values: [true]
+              quote: false

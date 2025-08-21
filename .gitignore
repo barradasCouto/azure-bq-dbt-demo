@@ -7,6 +7,7 @@
 dbt/target/
 dbt/logs/
 .venv/
+.venv-docs/
 __pycache__/
 .DS_Store
 # airbyte & misc

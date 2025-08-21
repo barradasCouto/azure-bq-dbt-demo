@@ -4,14 +4,25 @@
     partition_by={'field': 'ts', 'data_type': 'timestamp'},
     cluster_by=['event_name']
 ) }}
-with base as (
-  select * from {{ ref('stg_events') }}
-  where consent_measurement = true
+
+WITH base AS (
+  SELECT *
+  FROM {{ ref('stg_events') }}
+  WHERE consent_measurement = TRUE
+),
+steps AS (
+  SELECT
+    customer_id,
+    ts,
+    event_name,
+    consent_measurement           -- <-- add this
+  FROM base
+  WHERE event_name IN ('page_view','add_to_cart','begin_checkout','purchase','signup')
 )
-, steps as (
-  select
-    customer_id, ts, event_name
-  from base
-  where event_name in ('page_view','add_to_cart','begin_checkout','purchase','signup')
-)
-select * from steps
+SELECT
+  customer_id,
+  ts,
+  event_name,
+  consent_measurement             -- <-- keep it in the final select
+FROM steps
+
