@@ -3,7 +3,7 @@ version: 2
 exposures:
   - name: marketing_funnel_dashboard
     type: dashboard
-    maturity: high
+    maturity: low
     url: https://example.com/dashboard
     depends_on:
       - ref('fct_funnels_signup')
@@ -11,3 +11,4 @@ exposures:
     owner:
       name: DataOps
       email: team@example.com
+    description: "Demo dashboard depending on consent-gated marts."

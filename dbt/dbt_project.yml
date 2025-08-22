@@ -4,6 +4,15 @@ version: '1.0.0'
 config-version: 2
 profile: 'usercentrics_demo'
 
+model-paths: ['models']
+macro-paths: ['macros']
+analysis-paths: ['analyses']
+seed-paths: ['seeds']
+snapshot-paths: ['snapshots']
+test-paths: ['tests']
+packages-install-path: 'dbt_packages'
+clean-targets: ['target', 'dbt_packages']
+
 models:
   usercentrics_migration_demo:
     +materialized: view
