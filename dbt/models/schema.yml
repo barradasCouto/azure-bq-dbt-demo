@@ -8,9 +8,15 @@ models:
         tests:
           - unique
           - not_null
-      - name: consent_measurement
+      - name: event_name
         tests:
-          - not_null
+          - accepted_values:
+              values:
+                - page_view
+                - add_to_cart
+                - begin_checkout
+                - purchase
+                - signup
 
   - name: fct_sessions
     tests:

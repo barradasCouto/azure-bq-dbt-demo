@@ -1,35 +1,33 @@
 
-# DataOps Runbook — Azure→BigQuery Demo
+# DataOps Runbook — Azure → BigQuery (EU) + dbt
 
-## SLOs/SLA
-- Freshness SLO: **30 minutes** for `analytics` marts
-- Success rate: **≥99.5%**
-- Incident acknowledgement: **15 minutes** (business hours)
+**Stack:** Azure SQL / CSV → BigQuery (`raw`, `analytics`) → dbt (staging → marts)  
+**Privacy invariant:** All marts gate on `consent_measurement = TRUE` (consent-first modeling).
+
+## SLOs & SLIs
+- Freshness (analytics marts): ≤ 30 min (P95)
+- Build success: ≥ 99.5% (7-day)
+- Cost: alert if billed bytes/day > 5 GB (demo threshold)
 
 ## Detection
-- dbt source freshness checks (see `models/schema.yml`)
-- Airbyte job alerts (failure notifications)
-- Optional anomaly checks (Elementary/GE)
+- dbt tests (unique/not_null/accepted_values)
+- Optional: dbt source freshness on raw.events.ts
+- Weekly cost review via INFORMATION_SCHEMA.JOBS_BY_PROJECT (see docs/cost_last7d.txt)
 
 ## Mitigation
-1. Identify failing step (Airbyte sync vs dbt build)
-2. For Airbyte failures: re-run last successful sync range; backfill window
-3. For dbt failures: run affected model with `--select` and document root cause
+- Ingest fail → re-run window/backfill
+- dbt fail → fix model or data contract; `dbt run --select <model+parents>`
+- Recon parity (counts + checksum) must be ±0.5–1% before “green”
 
 ## Rollback
-- Tag last good dbt build: `dbt build --select state:modified --state target/`
-- Re-point BI to last good `analytics` tables (or use versioned schemas)
+- Keep last-good tables; re-point exposure to previous version
+- Documented in this runbook; recon snapshot proves safe state
 
-## Parity & Validation
-- Run `bigquery/parity_checks.sql` after cutover
-- Acceptance: row counts within agreed threshold; checksum stable
+## Cost guardrails
+- Partition on ts; cluster by event_name (or customer_id)
+- Prune by date; avoid SELECT *
+- Dataset TTL for scratch; weekly jobs audit
 
-## Cost Guardrails
-- Partition by event timestamp; cluster by event/customer
-- Table TTL on scratch tables
-- Weekly review of `bigquery/cost_monitor.sql`
-
-## Security & Privacy
-- EU region for datasets
-- Enforce consent filters in marts (`consent_measurement = TRUE`)
-- PII avoided (hashed emails only), apply policy tags if needed
+## Privacy
+- Consent enforced in marts: `consent_measurement = TRUE`
+- EU-only datasets; avoid raw PII; hashed ids / policy tags (next step)

@@ -1,0 +1,22 @@
+[0m06:59:52  Running with dbt=1.10.9
+[0m06:59:53  Registered adapter: bigquery=1.10.1
+[0m06:59:53  Found 3 models, 5 data tests, 3 sources, 1 exposure, 612 macros
+[0m06:59:53  
+[0m06:59:53  Concurrency: 4 threads (target='dev')
+[0m06:59:53  
+[0m06:59:54  3 of 5 START test not_null_fct_sessions_session_id ............................. [RUN]
+[0m06:59:54  1 of 5 START test accepted_values_fct_funnels_signup_consent_measurement__False__True  [RUN]
+[0m06:59:54  2 of 5 START test accepted_values_stg_events_event_name__page_view__add_to_cart__begin_checkout__purchase__signup  [RUN]
+[0m06:59:54  4 of 5 START test not_null_stg_events_event_id ................................. [RUN]
+[0m06:59:56  1 of 5 PASS accepted_values_fct_funnels_signup_consent_measurement__False__True  [[32mPASS[0m in 2.13s]
+[0m06:59:56  3 of 5 PASS not_null_fct_sessions_session_id ................................... [[32mPASS[0m in 2.13s]
+[0m06:59:56  5 of 5 START test unique_stg_events_event_id ................................... [RUN]
+[0m06:59:56  4 of 5 PASS not_null_stg_events_event_id ....................................... [[32mPASS[0m in 2.24s]
+[0m06:59:56  2 of 5 PASS accepted_values_stg_events_event_name__page_view__add_to_cart__begin_checkout__purchase__signup  [[32mPASS[0m in 2.41s]
+[0m06:59:58  5 of 5 PASS unique_stg_events_event_id ......................................... [[32mPASS[0m in 2.21s]
+[0m06:59:58  
+[0m06:59:58  Finished running 5 data tests in 0 hours 0 minutes and 5.03 seconds (5.03s).
+[0m06:59:58  
+[0m06:59:58  [32mCompleted successfully[0m
+[0m06:59:58  
+[0m06:59:58  Done. PASS=5 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=5
