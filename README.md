@@ -29,8 +29,6 @@ This is a compact, interview-ready demo showing:
 
 > Tip: Partition & cluster marts to keep costs predictable.
 
-## Demo script
-
 ### 2-minute walkthrough
 1) Architecture & lineage (docs/lineage.png): raw → stg_events → marts → exposure.
 2) Privacy: consent gate in marts + test prevents leaks.
