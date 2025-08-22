@@ -1,0 +1,16 @@
+
+version: 2
+
+models:
+  - name: fct_sessions
+    tests:
+      - not_null:
+          column_name: session_id
+
+  - name: fct_funnels_signup
+    columns:
+      - name: consent_measurement
+        tests:
+          - accepted_values:
+              values: [true]
+              quote: false

@@ -12,12 +12,6 @@ with src as (
     cast(consent_marketing as bool) as consent_marketing
   from {{ source('raw', 'events') }}
 )
-, dedup as (
-  select * except(rn)
-  from (
-    select src.*, row_number() over (partition by event_id order by ts desc) as rn
-    from src
-  )
-  where rn=1
-)
-select * from dedup
+select *
+from src
+qualify row_number() over (partition by event_id order by ts desc) = 1
